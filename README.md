@@ -1,0 +1,1 @@
+This project builds a Jetpack Compose Scaffold with a top app bar displaying the app title, a bottom navigation bar with three items (Home, Settings, Profile), and a floating action button that shows a Snackbar when pressed. Proper innerPadding is applied to ensure content does not overlap with the bars, and the code is uploaded to Git with a README.
