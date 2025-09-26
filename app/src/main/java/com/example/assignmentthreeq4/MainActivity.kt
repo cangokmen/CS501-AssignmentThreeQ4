@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.assignmentthreeq4.ui.theme.AssignmentThreeQ4Theme
 import kotlinx.coroutines.launch
 
+// MainActivity is the app's entry point.
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +33,21 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Main composable containing the entire screen structure.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Main(modifier: Modifier = Modifier) {
 
+    // State for showing snackbars and the scope to launch them.
     val hostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    
+
+    // State for the currently selected item in the bottom navigation.
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Settings", "Profile")
     val icons = listOf(Icons.Filled.Home, Icons.Filled.Settings, Icons.Filled.Person)
 
+    // Scaffold provides the main Material Design layout structure.
     Scaffold(
         modifier = modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState) },
@@ -55,7 +60,6 @@ fun Main(modifier: Modifier = Modifier) {
                 )
             )
         },
-
         bottomBar = {
             NavigationBar {
                 items.forEachIndexed { index, item ->
@@ -63,15 +67,14 @@ fun Main(modifier: Modifier = Modifier) {
                         icon = { Icon(icons[index], contentDescription = item) },
                         label = { Text(item) },
                         selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                        }
+                        onClick = { selectedItem = index }
                     )
                 }
             }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
+                // Launch a coroutine to show a snackbar on click.
                 scope.launch {
                     hostState.showSnackbar(
                         message = "Message",
@@ -84,6 +87,7 @@ fun Main(modifier: Modifier = Modifier) {
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { innerPadding ->
+        // Main content area of the screen.
         ScreenContent(
             text = items[selectedItem],
             modifier = Modifier.padding(innerPadding)
@@ -91,6 +95,7 @@ fun Main(modifier: Modifier = Modifier) {
     }
 }
 
+// Displays the content for the currently selected screen.
 @Composable
 fun ScreenContent(text: String, modifier: Modifier = Modifier) {
     Box(
@@ -102,7 +107,7 @@ fun ScreenContent(text: String, modifier: Modifier = Modifier) {
 }
 
 
-
+// Preview for the main screen layout.
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
@@ -110,4 +115,3 @@ fun DefaultPreview() {
         Main()
     }
 }
-
